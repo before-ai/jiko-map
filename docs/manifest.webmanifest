@@ -1,0 +1,9 @@
+{
+  "name": "沖縄 事故多発マップ",
+  "short_name": "沖縄 事故多発マップ",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f7f8fa",
+  "theme_color": "#0e5a8a",
+  "lang": "ja"
+}

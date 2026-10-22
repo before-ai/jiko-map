@@ -1,0 +1,67 @@
+/* 色はここだけ。ダークモードは自動 */
+:root {
+  --bg: #f7f8fa;
+  --fg: #1a1d21;
+  --muted: #5e6670;
+  --panel: #ffffff;
+  --line: #e2e6ea;
+  --accent: #0e5a8a;
+  --accent-fg: #ffffff;
+  --danger: #b4232c;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f1216;
+    --fg: #e8ebee;
+    --muted: #9aa3ad;
+    --panel: #171b21;
+    --line: #2a3038;
+    --accent: #5fb0e6;
+    --accent-fg: #0f1216;
+  }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", sans-serif;
+  color: var(--fg);
+  background: var(--bg);
+}
+.top, .layout, .foot { max-width: 920px; margin: 0 auto; padding: 16px; }
+.top h1 { margin: 0 0 4px; font-size: 1.5rem; }
+.lead { margin: 0; color: var(--muted); }
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+.panel h2 { margin: 0 0 8px; font-size: 1.1rem; }
+.muted { color: var(--muted); }
+.row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+label { display: block; margin: 8px 0; }
+input, select, textarea, button {
+  font: inherit;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  color: var(--fg);
+  max-width: 100%;
+}
+input, select, textarea { width: 100%; }
+button {
+  background: var(--accent);
+  color: var(--accent-fg);
+  border-color: transparent;
+  cursor: pointer;
+  min-height: 44px;
+}
+button.ghost { background: transparent; color: var(--accent); border-color: var(--accent); }
+.list { list-style: none; padding: 0; margin: 0; }
+.list li { padding: 10px 0; border-top: 1px solid var(--line); }
+.list li:first-child { border-top: 0; }
+.foot { font-size: 0.85rem; }
+code { font-size: 0.9em; }
