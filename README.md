@@ -3,7 +3,7 @@
 警察庁の交通事故オープンデータで、沖縄の事故が多い場所と時間帯を地図で見る静的サイト。
 前身は「沖縄 速度取締り重点マップ」(torishimari-map)。県警の取締り指針が古くリアルタイム性もなかったため、2026-10-22 にこちらへ作り替えた。
 
-公開先: (まだ。`../site-factory/publish.sh jiko-map` で https://before-ai.github.io/jiko-map/ に出る)
+公開先: https://before-ai.github.io/jiko-map/ (GitHub Pages、main の docs/ を配信。push すると1〜2分で反映)
 
 ## できること
 
