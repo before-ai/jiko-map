@@ -7,28 +7,86 @@
 <meta name="description" content="警察庁の交通事故オープンデータで、沖縄の事故が多い場所と時間帯を地図で見る">
 <meta property="og:title" content="沖縄 事故多発マップ">
 <meta property="og:description" content="警察庁の交通事故オープンデータで、沖縄の事故が多い場所と時間帯を地図で見る">
-<meta name="theme-color" content="#0e5a8a">
+<meta name="theme-color" content="#b4432c">
 <link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <header class="top">
-  <h1>沖縄 事故多発マップ</h1>
-  <p class="lead">警察庁の交通事故オープンデータで、沖縄の事故が多い場所と時間帯を地図で見る</p>
+  <div>
+    <h1>沖縄 事故多発マップ</h1>
+    <p class="lead" id="lead">警察庁の交通事故オープンデータで、沖縄の事故が多い場所と時間帯を見る</p>
+  </div>
 </header>
 
+<nav class="filters" aria-label="絞り込み">
+  <label>時間帯
+    <select id="f-time">
+      <option value="all">すべて</option>
+      <option value="now">いまの時間帯(前後1時間)</option>
+      <option value="morning">朝 6〜10時</option>
+      <option value="day">昼 10〜16時</option>
+      <option value="evening">夕方 16〜20時</option>
+      <option value="night">夜 20〜6時</option>
+    </select>
+  </label>
+  <label>相手・種類
+    <select id="f-kind">
+      <option value="all">すべて</option>
+      <option value="ped">歩行者が関係</option>
+      <option value="cycle">自転車が関係</option>
+      <option value="moto">バイクが関係</option>
+      <option value="single">単独事故</option>
+    </select>
+  </label>
+  <label>重さ
+    <select id="f-sev">
+      <option value="all">すべての人身事故</option>
+      <option value="fatal">死亡事故だけ</option>
+    </select>
+  </label>
+  <label>天候
+    <select id="f-weather">
+      <option value="all">すべて</option>
+      <option value="rain">雨の日だけ</option>
+    </select>
+  </label>
+  <label>年
+    <select id="f-year"><option value="all">すべての年</option></select>
+  </label>
+</nav>
+
 <main class="layout">
-  <section class="panel">
-    <h2>ここに本体</h2>
-    <p class="muted">docs/app.js の <code>render()</code> を書き換えると、この中身が変わります。</p>
-    <div id="app"></div>
-  </section>
+  <div class="mapwrap">
+    <div id="map" role="region" aria-label="事故地点の地図"></div>
+    <div class="jump">
+      <button class="ghost" data-jump="main">本島</button>
+      <button class="ghost" data-jump="miyako">宮古</button>
+      <button class="ghost" data-jump="yaeyama">八重山</button>
+    </div>
+  </div>
+  <aside class="side">
+    <section class="stats" id="stats" aria-live="polite"></section>
+    <section>
+      <h2>時間帯ごとの件数</h2>
+      <div class="hours" id="hours"></div>
+      <p class="muted small" id="hours-note"></p>
+    </section>
+    <section>
+      <h2>この条件で事故が多い場所</h2>
+      <p class="muted small">約100m四方ごとに数えた上位。押すと地図がその場所に寄ります。</p>
+      <ol class="rank" id="rank"></ol>
+    </section>
+  </aside>
 </main>
 
 <footer class="foot">
-  <p class="muted"><span id="updated"></span> · 出典や注意書きはここに書く</p>
+  <p class="muted" id="foot">読み込み中…</p>
 </footer>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.heat/0.2.0/leaflet-heat.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

@@ -1,67 +1,84 @@
 /* 色はここだけ。ダークモードは自動 */
 :root {
-  --bg: #f7f8fa;
-  --fg: #1a1d21;
-  --muted: #5e6670;
+  --bg: #f7f6f3;
+  --fg: #1c1f23;
+  --muted: #626a73;
   --panel: #ffffff;
-  --line: #e2e6ea;
-  --accent: #0e5a8a;
-  --accent-fg: #ffffff;
-  --danger: #b4232c;
+  --line: #e3e0da;
+  --accent: #b4432c;
+  --accent-soft: #f6e3dc;
+  --bar: #d9b8ad;
+  --bar-now: #b4432c;
+  --fatal: #c0182a;
+  --dot: #e07a3c;
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #0f1216;
-    --fg: #e8ebee;
-    --muted: #9aa3ad;
-    --panel: #171b21;
-    --line: #2a3038;
-    --accent: #5fb0e6;
-    --accent-fg: #0f1216;
+    --bg: #121417;
+    --fg: #e9e7e3;
+    --muted: #9ba3ac;
+    --panel: #1a1d22;
+    --line: #2c3138;
+    --accent: #ff8a6b;
+    --accent-soft: #3a2621;
+    --bar: #6b4a40;
+    --bar-now: #ff8a6b;
+    --fatal: #ff4d5e;
+    --dot: #ffa36b;
   }
 }
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;
-  font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", sans-serif;
+  font: 15px/1.6 -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", sans-serif;
   color: var(--fg);
   background: var(--bg);
 }
-.top, .layout, .foot { max-width: 920px; margin: 0 auto; padding: 16px; }
-.top h1 { margin: 0 0 4px; font-size: 1.5rem; }
-.lead { margin: 0; color: var(--muted); }
-.panel {
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  padding: 16px;
-  margin-bottom: 16px;
+.top { padding: 12px 16px 4px; }
+.top h1 { margin: 0; font-size: 1.3rem; }
+.lead { margin: 2px 0 0; color: var(--muted); font-size: 0.9rem; }
+.filters { display: flex; flex-wrap: wrap; gap: 8px 12px; padding: 8px 16px 12px; border-bottom: 1px solid var(--line); }
+.filters label { display: flex; flex-direction: column; font-size: 0.75rem; color: var(--muted); gap: 2px; }
+select, button {
+  font: inherit; font-size: 0.9rem; color: var(--fg); background: var(--panel);
+  border: 1px solid var(--line); border-radius: 8px; padding: 7px 10px; min-height: 38px;
 }
-.panel h2 { margin: 0 0 8px; font-size: 1.1rem; }
+button { cursor: pointer; }
+button.ghost { background: var(--panel); }
+.layout { display: grid; grid-template-columns: 1fr 380px; height: calc(100vh - 150px); min-height: 520px; }
+.mapwrap { position: relative; }
+#map { position: absolute; inset: 0; }
+.jump { position: absolute; z-index: 500; right: 10px; top: 10px; display: flex; gap: 6px; }
+.jump button { min-height: 32px; padding: 4px 10px; box-shadow: 0 1px 3px rgba(0,0,0,.2); }
+.side { overflow: auto; background: var(--panel); border-left: 1px solid var(--line); padding: 12px 16px 24px; }
+.side h2 { font-size: 0.95rem; margin: 18px 0 4px; }
+.small { font-size: 0.8rem; margin: 2px 0 8px; }
 .muted { color: var(--muted); }
-.row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
-label { display: block; margin: 8px 0; }
-input, select, textarea, button {
-  font: inherit;
-  padding: 10px 12px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--panel);
-  color: var(--fg);
-  max-width: 100%;
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.stat { background: var(--bg); border-radius: 10px; padding: 8px 10px; }
+.stat b { display: block; font-size: 1.35rem; line-height: 1.2; font-variant-numeric: tabular-nums; }
+.stat span { font-size: 0.75rem; color: var(--muted); }
+.stat.fatal b { color: var(--fatal); }
+.hours { display: grid; grid-template-columns: repeat(24, 1fr); align-items: end; gap: 2px; height: 90px; margin-top: 6px; }
+.hours div { background: var(--bar); border-radius: 2px 2px 0 0; min-height: 2px; position: relative; }
+.hours div.now { background: var(--bar-now); }
+.hours-axis { display: grid; grid-template-columns: repeat(24, 1fr); font-size: 0.65rem; color: var(--muted); }
+.hours-axis span { text-align: center; }
+.rank { list-style: none; padding: 0; margin: 0; counter-reset: r; }
+.rank li { counter-increment: r; display: grid; grid-template-columns: 28px 1fr auto; gap: 8px; align-items: start; padding: 8px 6px; border-top: 1px solid var(--line); cursor: pointer; border-radius: 8px; }
+.rank li:hover, .rank li:focus { background: var(--accent-soft); outline: none; }
+.rank li::before { content: counter(r); font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
+.rank .name { font-weight: 600; }
+.rank .sub { font-size: 0.78rem; color: var(--muted); }
+.rank .n { font-weight: 700; font-variant-numeric: tabular-nums; text-align: right; }
+.rank .n small { display: block; font-weight: 400; color: var(--fatal); font-size: 0.72rem; }
+.foot { padding: 12px 16px 24px; font-size: 0.8rem; border-top: 1px solid var(--line); }
+.foot a, .side a { color: var(--accent); }
+.leaflet-popup-content { font-size: 13px; line-height: 1.55; margin: 10px 12px; }
+.leaflet-popup-content b { font-size: 14px; }
+@media (max-width: 860px) {
+  .layout { grid-template-columns: 1fr; grid-template-rows: 60vh auto; height: auto; }
+  .side { border-left: 0; border-top: 1px solid var(--line); }
+  .filters label { flex: 1 1 140px; }
 }
-input, select, textarea { width: 100%; }
-button {
-  background: var(--accent);
-  color: var(--accent-fg);
-  border-color: transparent;
-  cursor: pointer;
-  min-height: 44px;
-}
-button.ghost { background: transparent; color: var(--accent); border-color: var(--accent); }
-.list { list-style: none; padding: 0; margin: 0; }
-.list li { padding: 10px 0; border-top: 1px solid var(--line); }
-.list li:first-child { border-top: 0; }
-.foot { font-size: 0.85rem; }
-code { font-size: 0.9em; }
